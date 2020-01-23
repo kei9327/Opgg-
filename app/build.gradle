@@ -1,0 +1,106 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion "29.0.2"
+    defaultConfig {
+        applicationId "kr.wayde.opgg"
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        multiDexEnabled true
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    androidExtensions {
+        experimental = true
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation project(':remote')
+    implementation project(':domain')
+
+
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.appcompat:appcompat:$rootProject.androidXVersion"
+    implementation "androidx.core:core-ktx:$rootProject.androidXVersion"
+    implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintVersion"
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation "androidx.test.ext:junit:$rootProject.androidXVersion"
+    androidTestImplementation "androidx.test:runner:$rootProject.testRunner"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoCore"
+
+    implementation  "com.google.android.material:material:1.0.0"
+
+    implementation "androidx.multidex:multidex:$rootProject.multidex_version"
+    // Lifecycle
+    implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.lifecycleVersion"
+
+    // Fresco
+    implementation "com.facebook.fresco:fresco:$rootProject.frescoVersion"
+
+    // RxJava
+    implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rxAndroidVersion"
+    implementation "io.reactivex.rxjava2:rxjava:$rootProject.rxJavaVersion"
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofitVersion"
+    implementation "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:$rootProject.rxjava2adpaterVersion"
+    implementation "com.squareup.okhttp3:okhttp:$rootProject.okhttpVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.okhttpVersion"
+
+    //koin
+    implementation "org.koin:koin-android:$rootProject.koin_version"
+    implementation "org.koin:koin-android-scope:$rootProject.koin_version"
+    implementation "org.koin:koin-androidx-viewmodel:$rootProject.koin_version"
+    testImplementation "org.koin:koin-test:$rootProject.koin_version"
+    // Navigation
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.1.0'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.1.0'
+
+    // KTX
+    implementation "androidx.core:core-ktx:$rootProject.ktxVersion"
+
+    // Stetho
+    implementation "com.facebook.stetho:stetho:1.5.1"
+    implementation 'com.facebook.stetho:stetho-js-rhino:1.4.2'
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
+
+    // Paging
+    implementation "androidx.paging:paging-runtime:$rootProject.pagaingVersion"
+    implementation "androidx.paging:paging-rxjava2:$rootProject.pagaingVersion"
+
+    //COROUTINES
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.coroutinesVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.coroutinesVersion"
+}
