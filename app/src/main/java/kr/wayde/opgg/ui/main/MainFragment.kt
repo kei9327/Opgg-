@@ -12,6 +12,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**o
  * Created by Wayde.k(Jnaghyok Park) on 2020.01.24
+ *
+ * TODO : UI 구성만 완료하면 끝!!!
  */
 class MainFragment : BaseFragment() {
 
