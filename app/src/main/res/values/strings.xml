@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">OpggTest</string>
+
+    <string name="lol_renew">전적갱신</string>
+    <string name="lol_most_picked">모스트 승률</string>
+    <string name="lol_position">포지션</string>
+    <string name="lol_position_bottom_short">바텀</string>
+    <string name="lol_position_jungle_short">정글</string>
+    <string name="lol_position_mid_short">미드</string>
+    <string name="lol_position_support_short">서폿</string>
+    <string name="lol_position_top_short">탑</string>
+    <string name="lol_recent_20_games">최근 20게임</string>
+    <string name="lol_win_lose" formatted="false">%,d승 %,d패</string>
 </resources>

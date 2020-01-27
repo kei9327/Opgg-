@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import kotlinx.android.synthetic.main.fragment_main.*
 import kr.wayde.opgg.databinding.FragmentMainBinding
 import kr.wayde.opgg.ui.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -18,6 +19,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class MainFragment : BaseFragment() {
 
     private val viewModel by viewModel<MainViewModel>()
+    private lateinit var mAdapter: MainSummonerAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding = FragmentMainBinding.inflate(inflater, container, false)
@@ -26,6 +28,9 @@ class MainFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        mAdapter = MainSummonerAdapter()
+        rcv_summoner_info.adapter = mAdapter
 
         viewModel.summonerResult.observe(this, Observer {
             Log.i("MainFragment", it.toString())
