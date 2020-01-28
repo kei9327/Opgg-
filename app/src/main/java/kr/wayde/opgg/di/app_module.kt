@@ -26,7 +26,7 @@ val appModule: Module = module {
 }
 
 val viewModelModule = module {
-    viewModel { MainViewModel(get(), get()) }
+    viewModel { MainViewModel(get()) }
     viewModel { SummonerRecentViewModel(get()) }
     viewModel { SummonerHeaderViewModel(get()) }
 }

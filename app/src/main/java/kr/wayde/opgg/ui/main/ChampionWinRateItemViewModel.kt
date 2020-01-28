@@ -23,7 +23,7 @@ class ChampionWinRateItemViewModel(val items: Champions?) : BaseObservableViewMo
         @BindingAdapter("app:txtMostRate")
         fun txtWinRate(view: TextView, items: Champions?) {
             items?.let {
-                view.text = ((it.wins.toFloat() / it.games.toFloat()) * 100).toInt().toString()
+                view.text = ((it.wins.toFloat() / it.games.toFloat()) * 100).toInt().toString() + "%"
             }
         }
     }

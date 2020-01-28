@@ -19,7 +19,6 @@ class SummonerRecentViewModel(private val getMatchesUseCase: GetMatchesUseCase) 
     BaseObservableViewModel() {
     val mostChampionAdapter: MostChampionAdapter = MostChampionAdapter()
     val matchesInfoResult = MutableLiveData<Matches>()
-    val positionLiveData = MutableLiveData<Positions>()
 
     fun requestSummonerInfo(summoner: String) {
         summoner
@@ -28,18 +27,11 @@ class SummonerRecentViewModel(private val getMatchesUseCase: GetMatchesUseCase) 
                 getMatchesUseCase
                     .get(GetMatchesUseCase.Params(it, System.currentTimeMillis() / 1000))
                     .subscribe { it: Matches ->
-                        positionLiveData.postValue(it.positions[0])
                         mostChampionAdapter.addItems(it.champions)
                         matchesInfoResult.postValue(it)
                     }
             }
     }
-
-//    recentBinding.txtWinLose.text = String.format(recentBinding.txtWinLose.resources.getString(R.string.lol_win_lose), it.positions[0].wins, it.positions[0].losses)
-//
-//    recentBinding.txtKillAvg.text = it.games.map { games -> return@map games.stats.general.kill }.average().toString()
-//    recentBinding.txtDeathAvg.text = it.games.map { games -> return@map games.stats.general.death }.average().toString()
-//    recentBinding.txtAssist.text = it.games.map { games -> return@map games.stats.general.assist }.average().toString()
 
     companion object {
         @JvmStatic
@@ -99,7 +91,9 @@ class SummonerRecentViewModel(private val getMatchesUseCase: GetMatchesUseCase) 
             }
 
             var rate = 0
-            matches?.positions?.get(0)?.wins?.let { rate = it / 20 * 100 }
+            matches?.games?.map { games -> return@map games.stats.general.contributionForKillRate.removeSuffix("%").toInt() }?.average()?.let {
+                rate = it.toInt()
+            }
 
             view.text = String.format("%.2f", (kill + assist) / death) + ":1 ($rate%)"
         }

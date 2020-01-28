@@ -1,27 +1,24 @@
 package kr.wayde.opgg.ui.main
 
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.facebook.drawee.view.SimpleDraweeView
 import kr.wayde.opgg.R
-import kr.wayde.opgg.databinding.ItemChampionWinRateBinding
-import kr.wayde.opgg.domain.entity.*
-import kr.wayde.opgg.domain.interactor.usecases.GetMatchesUseCase
+import kr.wayde.opgg.domain.entity.Positions
+import kr.wayde.opgg.domain.entity.Spells
+import kr.wayde.opgg.domain.entity.Summoner
 import kr.wayde.opgg.domain.interactor.usecases.GetSummonerInfoUseCase
 import kr.wayde.opgg.ui.BaseObservableViewModel
 
-class SummonerHeaderViewModel(private val getSummonerInfoUseCase: GetSummonerInfoUseCase) : BaseObservableViewModel() {
-//    val mostChampionAdapter: MostChampionAdapter = MostChampionAdapter()
+class SummonerHeaderViewModel(private val getSummonerInfoUseCase: GetSummonerInfoUseCase) :
+    BaseObservableViewModel() {
+    //    val mostChampionAdapter: MostChampionAdapter = MostChampionAdapter()
     val summonerResult = MutableLiveData<Summoner>()
 
-    fun requestSummonerInfo(summoner:String) {
+    fun requestSummonerInfo(summoner: String) {
         compositeDisposable.add(
             getSummonerInfoUseCase.get(summoner).subscribe { it: Summoner ->
                 summonerResult.postValue(it)
@@ -32,8 +29,12 @@ class SummonerHeaderViewModel(private val getSummonerInfoUseCase: GetSummonerInf
     companion object {
         @JvmStatic
         @BindingAdapter("app:imageUrl")
-        fun loadImage(view: SimpleDraweeView, imageUrl: String) {
-            view.setImageURI(imageUrl)
+        fun loadImage(view: SimpleDraweeView, imageUrl: String?) {
+            imageUrl
+                ?.takeIf { it.isNotEmpty() }
+                ?.let {
+                    view.setImageURI(imageUrl)
+                }
         }
 
         @JvmStatic
@@ -44,14 +45,10 @@ class SummonerHeaderViewModel(private val getSummonerInfoUseCase: GetSummonerInf
 
         @JvmStatic
         @BindingAdapter("app:integerText")
-        fun integerText(view: TextView, int: Int) {
-            view.text = int.toString()
-        }
-
-        @JvmStatic
-        @BindingAdapter("app:winLoseText")
-        fun winLoseText(view: TextView, position:  Positions) {
-            view.text = String.format(view.resources.getString(R.string.lol_win_lose), position.wins, position.losses)
+        fun integerText(view: TextView, int: Int?) {
+            int?.let {
+                view.text = int.toString()
+            }
         }
 
         @JvmStatic

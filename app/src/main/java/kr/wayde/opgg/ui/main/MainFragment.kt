@@ -35,13 +35,20 @@ class MainFragment : BaseFragment() {
 
         super.onViewCreated(view, savedInstanceState)
 
-        mAdapter = MainSummonerAdapter(SUMMONER_NAME, summonerHeaderViewModel, summonerRecentViewModel)
+        mAdapter = MainSummonerAdapter(summonerHeaderViewModel, summonerRecentViewModel)
         rcv_summoner_info.adapter = mAdapter
 
-        summonerRecentViewModel.matchesInfoResult.observe(this, Observer {
-            mAdapter.notifyDataSetChanged()
+        summonerHeaderViewModel.summonerResult.observe(this, Observer {
+            mAdapter.notifyItemChanged(-2)
         })
+
+        summonerRecentViewModel.matchesInfoResult.observe(this, Observer {
+            mAdapter.notifyItemChanged(-1)
+
+        })
+
         summonerRecentViewModel.requestSummonerInfo(SUMMONER_NAME)
+        summonerHeaderViewModel.requestSummonerInfo(SUMMONER_NAME)
 
         viewModel.pagedList.observe(this, Observer {
             mAdapter.submitList(it)

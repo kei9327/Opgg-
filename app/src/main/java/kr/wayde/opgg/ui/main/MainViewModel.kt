@@ -18,34 +18,11 @@ import kr.wayde.opgg.ui.BaseViewModel
 import kr.wayde.opgg.util.config
 
 class MainViewModel(
-    private val getSummonerInfoUseCase: GetSummonerInfoUseCase,
     private val getMatchesUseCase: GetMatchesUseCase
 ) : BaseViewModel() {
 
-    val summonerResult = MutableLiveData<Summoner>()
-    val matchesInfoResult = MutableLiveData<Matches>()
     private val gamesLiveData = MutableLiveData<PagedResult<Games>>()
     val pagedList: LiveData<PagedList<Games>> = Transformations.switchMap(gamesLiveData) {it.data}
-
-    fun getSummonerInfo(userName: String) {
-        compositeDisposable.add(
-            getSummonerInfoUseCase.get(userName).subscribe { it: Summoner ->
-                summonerResult.postValue(it)
-            }
-        )
-    }
-
-    fun getMatchesInfo(userName: String) {
-        userName
-            ?.takeIf { it.isNotEmpty() }
-            ?.let {
-                getMatchesUseCase
-                    .get(GetMatchesUseCase.Params(it, System.currentTimeMillis() / 1000))
-                    .subscribe { it: Matches ->
-                        matchesInfoResult.postValue(it)
-                    }
-            }
-    }
 
     fun getGames(userName: String) {
         userName

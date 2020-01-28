@@ -3,6 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <import type="kr.wayde.opgg.R" />
+
+        <variable
+            name="viewModel"
+            type="kr.wayde.opgg.ui.main.SummonerHeaderViewModel" />
+    </data>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,8 +32,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <ImageView
+                <com.facebook.drawee.view.SimpleDraweeView
+                    app:roundedCornerRadius="200dp"
                     android:id="@+id/imgProfile"
+                    app:imageUrl="@{viewModel.summonerResult.profileImageUrl}"
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:layout_centerInParent="true"
@@ -44,7 +55,7 @@
                     android:paddingTop="3dp"
                     android:paddingRight="6dp"
                     android:paddingBottom="3dp"
-                    android:text="247"
+                    app:integerText="@{viewModel.summonerResult.level}"
                     android:textColor="@color/White"
                     android:textSize="12dp"
                     app:layout_constraintBottom_toBottomOf="@id/imgProfile"
@@ -63,7 +74,7 @@
                     android:id="@+id/txtName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Summoner"
+                    android:text="@{viewModel.summonerResult.name}"
                     android:textColor="@color/Gray800"
                     android:textSize="22dp"
                     android:textStyle="bold" />
@@ -92,12 +103,6 @@
                             android:textColor="@color/White"
                             android:textSize="14dp" />
 
-                        <!--                    <ProgressBar-->
-                        <!--                        android:id="@+id/progressRenew"-->
-                        <!--                        android:layout_width="25dp"-->
-                        <!--                        android:layout_height="25dp"-->
-                        <!--                        android:layout_gravity="center"-->
-                        <!--                        android:visibility="gone" />-->
                     </FrameLayout>
 
                 </LinearLayout>

@@ -17,7 +17,7 @@ import kr.wayde.opgg.domain.entity.Matches
 import kr.wayde.opgg.util.AdapterDataObserverProxy
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainSummonerAdapter(val summonerName: String, val summonerHeaderViewModel:SummonerHeaderViewModel , val summonerRecentViewModel: SummonerRecentViewModel) : PagedListAdapter<Games, MainSummonerAdapter.SummonerViewHolder>(
+class MainSummonerAdapter(val summonerHeaderViewModel:SummonerHeaderViewModel , val summonerRecentViewModel: SummonerRecentViewModel) : PagedListAdapter<Games, MainSummonerAdapter.SummonerViewHolder>(
     diffCallback
 ) {
     companion object {
@@ -78,7 +78,7 @@ class MainSummonerAdapter(val summonerName: String, val summonerHeaderViewModel:
     override fun onBindViewHolder(holder: SummonerViewHolder, position: Int) {
         when(holder) {
             is SummonerViewHolder.Header -> {
-
+                holder.summonerHeaderBinding.viewModel = summonerHeaderViewModel
             }
             is SummonerViewHolder.Recent -> {
                 holder.recentBinding.viewModel = summonerRecentViewModel
