@@ -3,6 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <import type="kr.wayde.opgg.R" />
+
+        <variable
+            name="viewModel"
+            type="kr.wayde.opgg.ui.main.LeaguesItemViewModel" />
+    </data>
+
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -36,8 +45,9 @@
                         android:layout_height="wrap_content"
                         android:gravity="center">
 
-                        <ImageView
+                        <com.facebook.drawee.view.SimpleDraweeView
                             android:id="@+id/imgTier"
+                            app:tierImageUrl="@{viewModel.items.tierRank.imageUrl}"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:contentDescription="@null" />
@@ -55,7 +65,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/Main500"
-                                android:textSize="10.0dip" />
+                                app:nullCheckText="@{viewModel.items.tierRank.name}"
+                                android:textSize="10dp" />
 
                             <TextView
                                 android:id="@+id/txtTier"
@@ -63,6 +74,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="1.0dip"
                                 android:textColor="@color/Gray800"
+                                app:nullCheckText="@{viewModel.items.tierRank.tierDivision}"
                                 android:textSize="14.0dip"
                                 android:textStyle="bold" />
 
@@ -72,6 +84,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="1.0dip"
                                 android:textColor="@color/Gray600"
+                                app:lpText="@{viewModel.items.tierRank.lp}"
                                 android:textSize="10.0dip" />
 
                             <TextView
@@ -80,6 +93,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="1.0dip"
                                 android:textColor="@color/Gray400"
+                                app:winRateText="@{viewModel.items}"
                                 android:textSize="10.0dip" />
                         </LinearLayout>
 

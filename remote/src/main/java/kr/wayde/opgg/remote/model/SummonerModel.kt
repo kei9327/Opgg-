@@ -28,7 +28,7 @@ data class TierRank(
     @SerializedName("string") val string: String,
     @SerializedName("shortString") val shortString: String,
     @SerializedName("division") val division: String,
-    @SerializedName("v") val imageUrl: String,
+    @SerializedName("imageUrl") val imageUrl: String,
     @SerializedName("lp") val lp: Int,
     @SerializedName("tierRankPoint") val tierRankPoint: Int
 )

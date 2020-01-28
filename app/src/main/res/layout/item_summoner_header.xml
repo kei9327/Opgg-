@@ -116,6 +116,7 @@
             android:layout_below="@+id/layoutSummoner"
             android:layout_marginTop="2dp"
             android:orientation="horizontal"
+            app:adapter="@{viewModel.leaguesAdapter}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_game_rank" />
 
