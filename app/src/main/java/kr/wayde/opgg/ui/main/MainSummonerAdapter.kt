@@ -14,21 +14,32 @@ import kr.wayde.opgg.databinding.ItemSummonerHeaderBinding
 import kr.wayde.opgg.domain.entity.Games
 import kr.wayde.opgg.util.AdapterDataObserverProxy
 
-class MainSummonerAdapter : PagedListAdapter<Games, MainSummonerAdapter.SummonerViewHolder>(
-    ItemDiffCallBack
+class MainSummonerAdapter(summonerName: String) : PagedListAdapter<Games, MainSummonerAdapter.SummonerViewHolder>(
+    diffCallback
 ) {
     companion object {
         private const val CELL_TYPE_HEADER = 0
         private const val CELL_TYPE_RECENT = 1
         private const val CELL_TYPE_GAMES = 2
+
+        private val diffCallback = object : DiffUtil.ItemCallback<Games>() {
+            override fun areItemsTheSame(oldItem: Games, newItem: Games): Boolean {
+                return oldItem.gameId == newItem.gameId
+            }
+
+            override fun areContentsTheSame(oldItem: Games, newItem: Games): Boolean {
+                return oldItem == newItem
+            }
+        }
     }
 
     override fun getItemCount(): Int {
         return super.getItemCount() + 2
     }
 
-    private fun getGamesItem(position: Int): Games? {
-        return getItem(position - 2)
+    override fun getItem(position: Int): Games? {
+        if (position < 2) return null
+        return super.getItem(position -2)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -47,22 +58,34 @@ class MainSummonerAdapter : PagedListAdapter<Games, MainSummonerAdapter.Summoner
             CELL_TYPE_HEADER -> {
                 binding =
                     DataBindingUtil.inflate(inflater, R.layout.item_summoner_header, parent, false)
-                SummonerViewHolder(binding as ItemSummonerHeaderBinding)
+                SummonerViewHolder.Header(binding as ItemSummonerHeaderBinding)
             }
             CELL_TYPE_RECENT -> {
                 binding = DataBindingUtil.inflate(inflater, R.layout.item_recnet_20, parent, false)
-                SummonerViewHolder(binding as ItemRecnet20Binding)
+                SummonerViewHolder.Recent(binding as ItemRecnet20Binding)
             }
             else -> {
                 binding = DataBindingUtil.inflate(inflater, R.layout.item_game_match, parent, false)
-                SummonerViewHolder(binding as ItemGameMatchBinding)
+                SummonerViewHolder.GameMatch(binding as ItemGameMatchBinding)
             }
         }
 
     }
 
     override fun onBindViewHolder(holder: SummonerViewHolder, position: Int) {
+        when(holder) {
+            is SummonerViewHolder.Header -> {
 
+            }
+            is SummonerViewHolder.Recent -> {
+
+            }
+            is SummonerViewHolder.GameMatch -> {
+                getItem(position)?.let {
+                    holder.gameMatchBinding.viewModel = GameMatchItemViewModel(it)
+                }
+            }
+        }
     }
 
     override fun registerAdapterDataObserver(observer: RecyclerView.AdapterDataObserver) {
@@ -70,31 +93,13 @@ class MainSummonerAdapter : PagedListAdapter<Games, MainSummonerAdapter.Summoner
     }
 
 
-    inner class SummonerViewHolder : RecyclerView.ViewHolder {
-        private lateinit var summonerHeaderBinding: ItemSummonerHeaderBinding
-        private lateinit var recentBinding: ItemRecnet20Binding
-        private lateinit var gameMatchBinding: ItemGameMatchBinding
+    sealed class SummonerViewHolder : RecyclerView.ViewHolder {
+        class Header(val summonerHeaderBinding:ItemSummonerHeaderBinding): SummonerViewHolder(summonerHeaderBinding)
+        class Recent(val recentBinding:ItemRecnet20Binding): SummonerViewHolder(recentBinding)
+        class GameMatch(val gameMatchBinding:ItemGameMatchBinding): SummonerViewHolder(gameMatchBinding)
 
-        constructor(binding: ItemSummonerHeaderBinding) : super(binding.root) {
-            summonerHeaderBinding = binding
-        }
-
-        constructor(binding: ItemRecnet20Binding) : super(binding.root) {
-            recentBinding = binding
-        }
-
-        constructor(binding: ItemGameMatchBinding) : super(binding.root) {
-            gameMatchBinding = binding
-        }
-    }
-}
-
-object ItemDiffCallBack : DiffUtil.ItemCallback<Games>() {
-    override fun areItemsTheSame(oldItem: Games, newItem: Games): Boolean {
-        return oldItem == newItem
-    }
-
-    override fun areContentsTheSame(oldItem: Games, newItem: Games): Boolean {
-        return oldItem == newItem
+        constructor(binding: ItemSummonerHeaderBinding) : super(binding.root)
+        constructor(binding: ItemRecnet20Binding) : super(binding.root)
+        constructor(binding: ItemGameMatchBinding) : super(binding.root)
     }
 }

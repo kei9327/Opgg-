@@ -1,7 +1,10 @@
 package kr.wayde.opgg.ui.main
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kr.wayde.opgg.domain.entity.Games
@@ -21,7 +24,8 @@ class MainViewModel(
 
     val summonerResult = MutableLiveData<Summoner>()
     val matchesInfoResult = MutableLiveData<Matches>()
-    val gamesLiveData = MutableLiveData<PagedResult<Games>>()
+    private val gamesLiveData = MutableLiveData<PagedResult<Games>>()
+    val pagedList: LiveData<PagedList<Games>> = Transformations.switchMap(gamesLiveData) {it.data}
 
     fun getSummonerInfo(userName: String) {
         compositeDisposable.add(

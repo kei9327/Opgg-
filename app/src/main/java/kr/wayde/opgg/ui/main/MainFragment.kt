@@ -21,6 +21,10 @@ class MainFragment : BaseFragment() {
     private val viewModel by viewModel<MainViewModel>()
     private lateinit var mAdapter: MainSummonerAdapter
 
+    companion object {
+        private val SUMMONER_NAME = "genetory";
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding = FragmentMainBinding.inflate(inflater, container, false)
         return binding.root
@@ -29,23 +33,26 @@ class MainFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mAdapter = MainSummonerAdapter()
+        mAdapter = MainSummonerAdapter(SUMMONER_NAME)
         rcv_summoner_info.adapter = mAdapter
 
-        viewModel.summonerResult.observe(this, Observer {
-            Log.i("MainFragment", it.toString())
-        })
+//        viewModel.summonerResult.observe(this, Observer {
+//            Log.i("MainFragment", it.toString())
+//        })
+//
+//        viewModel.matchesInfoResult.observe(this, Observer {
+//            Log.i("MainFragment", it.toString())
+//        })
 
-        viewModel.matchesInfoResult.observe(this, Observer {
-            Log.i("MainFragment", it.toString())
+        viewModel.pagedList.observe(this, Observer {
+            mAdapter.submitList(it)
         })
     }
 
     override fun onResume() {
         super.onResume()
 
-        viewModel.getSummonerInfo("genetory")
-        viewModel.getMatchesInfo("genetory")
+        viewModel.getGames(SUMMONER_NAME)
     }
 
 }

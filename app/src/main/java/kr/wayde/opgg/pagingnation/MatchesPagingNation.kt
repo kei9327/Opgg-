@@ -18,7 +18,7 @@ class MatchesPagingNation(val compositeDisposable: CompositeDisposable,
         compositeDisposable.add(
             getMatchesUseCase.get(GetMatchesUseCase.Params(userName, System.currentTimeMillis() / 1000))
                 .subscribe({
-                    callback.onResult(it.games, null, it.games.last().createDate)
+                    callback.onResult(it.games, null, it.games[it.games.lastIndex].createDate)
                 }, {
                     callback.onResult(emptyList(), null, null)
                 })

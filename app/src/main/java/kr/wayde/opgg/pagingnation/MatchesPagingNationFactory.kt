@@ -11,7 +11,7 @@ class MatchesPagingNationFactory(
     private val userName: String,
     private val getMatchesUseCase: GetMatchesUseCase
 ) : DataSource.Factory<Long, Games>() {
-    val sourceLiveData = MutableLiveData<MatchesPagingNation>()
+    private val sourceLiveData = MutableLiveData<MatchesPagingNation>()
 
     override fun create(): DataSource<Long, Games> {
         val userDataSource = MatchesPagingNation(compositeDisposable, userName, getMatchesUseCase)
