@@ -12,6 +12,8 @@ import kr.wayde.opgg.remote.OpggServiceFactory
 import kr.wayde.opgg.remote.mapper.MatchesEntityMapper
 import kr.wayde.opgg.remote.mapper.SummonerEntityMapper
 import kr.wayde.opgg.ui.main.MainViewModel
+import kr.wayde.opgg.ui.main.SummonerHeaderViewModel
+import kr.wayde.opgg.ui.main.SummonerRecentViewModel
 import kr.wayde.opgg.util.AppSchedulerProvider
 import kr.wayde.opgg.util.Logger
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -25,6 +27,8 @@ val appModule: Module = module {
 
 val viewModelModule = module {
     viewModel { MainViewModel(get(), get()) }
+    viewModel { SummonerRecentViewModel(get()) }
+    viewModel { SummonerHeaderViewModel(get()) }
 }
 
 val domainModule = module {

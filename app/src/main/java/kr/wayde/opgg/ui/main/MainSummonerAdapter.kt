@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.Observer
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -12,14 +13,16 @@ import kr.wayde.opgg.databinding.ItemGameMatchBinding
 import kr.wayde.opgg.databinding.ItemRecnet20Binding
 import kr.wayde.opgg.databinding.ItemSummonerHeaderBinding
 import kr.wayde.opgg.domain.entity.Games
+import kr.wayde.opgg.domain.entity.Matches
 import kr.wayde.opgg.util.AdapterDataObserverProxy
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainSummonerAdapter(summonerName: String) : PagedListAdapter<Games, MainSummonerAdapter.SummonerViewHolder>(
+class MainSummonerAdapter(val summonerName: String, val summonerHeaderViewModel:SummonerHeaderViewModel , val summonerRecentViewModel: SummonerRecentViewModel) : PagedListAdapter<Games, MainSummonerAdapter.SummonerViewHolder>(
     diffCallback
 ) {
     companion object {
         private const val CELL_TYPE_HEADER = 0
-        private const val CELL_TYPE_RECENT = 1
+        const val CELL_TYPE_RECENT = 1
         private const val CELL_TYPE_GAMES = 2
 
         private val diffCallback = object : DiffUtil.ItemCallback<Games>() {
@@ -78,7 +81,7 @@ class MainSummonerAdapter(summonerName: String) : PagedListAdapter<Games, MainSu
 
             }
             is SummonerViewHolder.Recent -> {
-
+                holder.recentBinding.viewModel = summonerRecentViewModel
             }
             is SummonerViewHolder.GameMatch -> {
                 getItem(position)?.let {
@@ -91,7 +94,6 @@ class MainSummonerAdapter(summonerName: String) : PagedListAdapter<Games, MainSu
     override fun registerAdapterDataObserver(observer: RecyclerView.AdapterDataObserver) {
         super.registerAdapterDataObserver(AdapterDataObserverProxy(observer, 2))
     }
-
 
     sealed class SummonerViewHolder : RecyclerView.ViewHolder {
         class Header(val summonerHeaderBinding:ItemSummonerHeaderBinding): SummonerViewHolder(summonerHeaderBinding)

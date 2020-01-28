@@ -3,6 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <import type="kr.wayde.opgg.R" />
+
+        <variable
+            name="viewModel"
+            type="kr.wayde.opgg.ui.main.SummonerRecentViewModel" />
+    </data>
+
     <LinearLayout
         android:id="@+id/ll_recent"
         android:layout_width="fill_parent"
@@ -33,6 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/lol_win_lose"
+                app:winLoseText="@{viewModel.matchesInfoResult.games}"
                 android:textColor="@color/Gray400"
                 android:textSize="10dp" />
 
@@ -46,6 +56,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/Gray700"
+                    app:killAvgText="@{viewModel.matchesInfoResult.games}"
                     android:textSize="14dp"
                     android:textStyle="bold" />
 
@@ -62,6 +73,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/Red500"
                     android:textSize="14dp"
+                    app:deathAvgText="@{viewModel.matchesInfoResult.games}"
                     android:textStyle="bold" />
 
                 <TextView
@@ -77,6 +89,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/Gray700"
                     android:textSize="14dp"
+                    app:assistAvgText="@{viewModel.matchesInfoResult.games}"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -89,6 +102,7 @@
                     android:id="@+id/txtKDA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:kdaText = "@{viewModel.matchesInfoResult}"
                     android:textSize="10dp" />
 
                 <TextView
@@ -121,6 +135,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
+                app:adapter="@{viewModel.mostChampionAdapter}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:itemCount="2"
                 tools:listitem="@layout/item_champion_win_rate" />
@@ -140,11 +155,12 @@
                 android:textColor="@color/Gray400"
                 android:textSize="10dp" />
 
-            <ImageView
+            <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/imgPosition"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginTop="10dp"
+                app:positionImg="@{viewModel.matchesInfoResult.positions}"
                 android:layout_marginBottom="10dp"
                 android:contentDescription="@null" />
 
@@ -153,6 +169,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/Gray800"
+                app:txtMostRate="@{viewModel.matchesInfoResult.positions}"
                 android:textSize="10dp" />
         </LinearLayout>
     </LinearLayout>
