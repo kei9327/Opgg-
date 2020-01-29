@@ -50,6 +50,12 @@ class MainFragment : BaseFragment() {
 
         })
 
+        summonerHeaderViewModel.renewLiveData.observe(this, Observer {
+            summonerRecentViewModel.requestSummonerInfo(SUMMONER_NAME)
+            summonerHeaderViewModel.requestSummonerInfo(SUMMONER_NAME)
+            viewModel.getGames(SUMMONER_NAME)
+        })
+
         summonerRecentViewModel.requestSummonerInfo(SUMMONER_NAME)
         summonerHeaderViewModel.requestSummonerInfo(SUMMONER_NAME)
 

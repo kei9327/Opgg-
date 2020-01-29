@@ -1,6 +1,7 @@
 package kr.wayde.opgg.ui.main
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
@@ -20,6 +21,7 @@ class SummonerHeaderViewModel(private val getSummonerInfoUseCase: GetSummonerInf
     BaseObservableViewModel() {
     val leaguesAdapter: LeaguesAdapter = LeaguesAdapter()
     val summonerResult = MutableLiveData<Summoner>()
+    val renewLiveData = MutableLiveData<String>()
 
     fun requestSummonerInfo(summoner: String) {
         compositeDisposable.add(
@@ -30,7 +32,24 @@ class SummonerHeaderViewModel(private val getSummonerInfoUseCase: GetSummonerInf
         )
     }
 
+    private var lastClickedTime: Long = 0L
+
+    fun onClickRenew(summoner: String) {
+        if (isSafe()) {
+            renewLiveData.postValue(summoner)
+
+        }
+        lastClickedTime = System.currentTimeMillis()
+    }
+
+    private fun isSafe(): Boolean {
+        return System.currentTimeMillis() - lastClickedTime > CLICK_INTERVAL
+    }
+
     companion object {
+        const val CLICK_INTERVAL = 500
+
+
         @JvmStatic
         @BindingAdapter("app:imageUrl")
         fun loadImage(view: SimpleDraweeView, imageUrl: String?) {
@@ -88,4 +107,5 @@ class SummonerHeaderViewModel(private val getSummonerInfoUseCase: GetSummonerInf
         inner class LeaguesHolder(val championWinRateBinding: ItemGameRankBinding) :
             RecyclerView.ViewHolder(championWinRateBinding.root)
     }
+
 }
