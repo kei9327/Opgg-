@@ -126,15 +126,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/lol_most_picked"
+                android:layout_gravity="center_horizontal"
                 android:textColor="@color/Gray400"
                 android:textSize="10dp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
-                android:layout_width="wrap_content"
+                android:layout_width="76dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
+                android:clickable="false"
+                android:overScrollMode="never"
                 app:adapter="@{viewModel.mostChampionAdapter}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:itemCount="2"

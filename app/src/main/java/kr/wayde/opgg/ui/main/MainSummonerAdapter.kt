@@ -1,10 +1,10 @@
 package kr.wayde.opgg.ui.main
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.Observer
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -13,11 +13,12 @@ import kr.wayde.opgg.databinding.ItemGameMatchBinding
 import kr.wayde.opgg.databinding.ItemRecnet20Binding
 import kr.wayde.opgg.databinding.ItemSummonerHeaderBinding
 import kr.wayde.opgg.domain.entity.Games
-import kr.wayde.opgg.domain.entity.Matches
 import kr.wayde.opgg.util.AdapterDataObserverProxy
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import kr.wayde.opgg.util.MetricsUtil
+import kr.wayde.opgg.view.RandkDivideItemDecoration
+import kr.wayde.opgg.view.RightDivideItemDecoration
 
-class MainSummonerAdapter(val summonerHeaderViewModel:SummonerHeaderViewModel , val summonerRecentViewModel: SummonerRecentViewModel) : PagedListAdapter<Games, MainSummonerAdapter.SummonerViewHolder>(
+class MainSummonerAdapter(val context: Context, val summonerHeaderViewModel:SummonerHeaderViewModel , val summonerRecentViewModel: SummonerRecentViewModel) : PagedListAdapter<Games, MainSummonerAdapter.SummonerViewHolder>(
     diffCallback
 ) {
     companion object {
@@ -79,13 +80,16 @@ class MainSummonerAdapter(val summonerHeaderViewModel:SummonerHeaderViewModel , 
         when(holder) {
             is SummonerViewHolder.Header -> {
                 holder.summonerHeaderBinding.viewModel = summonerHeaderViewModel
+                holder.summonerHeaderBinding.rcvRank.addItemDecoration(RandkDivideItemDecoration(MetricsUtil.convertDpToPixel(8f, context).toInt()))
             }
             is SummonerViewHolder.Recent -> {
                 holder.recentBinding.viewModel = summonerRecentViewModel
+                holder.recentBinding.recyclerView.addItemDecoration(RightDivideItemDecoration(MetricsUtil.convertDpToPixel(8f, context).toInt()))
             }
             is SummonerViewHolder.GameMatch -> {
                 getItem(position)?.let {
                     holder.gameMatchBinding.viewModel = GameMatchItemViewModel(it)
+                    holder.gameMatchBinding.rcvBuildItem.addItemDecoration(RightDivideItemDecoration(MetricsUtil.convertDpToPixel(2f, context).toInt()))
                 }
             }
         }

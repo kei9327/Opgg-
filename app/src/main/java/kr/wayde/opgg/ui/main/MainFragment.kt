@@ -9,6 +9,8 @@ import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.fragment_main.*
 import kr.wayde.opgg.databinding.FragmentMainBinding
 import kr.wayde.opgg.ui.BaseFragment
+import kr.wayde.opgg.util.MetricsUtil
+import kr.wayde.opgg.view.SummonerItemDecoration
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**o
@@ -35,8 +37,9 @@ class MainFragment : BaseFragment() {
 
         super.onViewCreated(view, savedInstanceState)
 
-        mAdapter = MainSummonerAdapter(summonerHeaderViewModel, summonerRecentViewModel)
+        mAdapter = MainSummonerAdapter(context!!, summonerHeaderViewModel, summonerRecentViewModel)
         rcv_summoner_info.adapter = mAdapter
+        rcv_summoner_info.addItemDecoration(SummonerItemDecoration(MetricsUtil.convertDpToPixel(4f, context).toInt()))
 
         summonerHeaderViewModel.summonerResult.observe(this, Observer {
             mAdapter.notifyItemChanged(-2)

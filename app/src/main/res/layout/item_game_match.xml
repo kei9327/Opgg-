@@ -272,6 +272,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1.0"
                             android:clickable="false"
+                            android:overScrollMode="never"
                             android:orientation="horizontal"
                             app:adapter="@{viewModel.buildItemAdapter}"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -294,11 +295,6 @@
                     </LinearLayout>
                 </RelativeLayout>
             </LinearLayout>
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="4.0dip"
-                android:background="@color/Gray200" />
         </LinearLayout>
     </FrameLayout>
 </layout>
